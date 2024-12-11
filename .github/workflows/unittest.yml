@@ -1,37 +1,53 @@
 name: Python CI
-# The workflow name
+# The name of the GitHub Actions workflow. It helps identify this workflow in the repository's Actions tab.
 
 # Trigger the workflow on specified events
 on:
   push:
+    # Triggers the workflow whenever there is a push event
     branches:
-      - main # Trigger on push to the main branch
+      - main # Specifies that this trigger only applies to the `main` branch
   pull_request:
+    # Triggers the workflow when a pull request is created or updated
     branches:
-      - main # Trigger on pull request to the main branch
+      - main # Specifies that this trigger only applies to pull requests targeting the `main` branch
 
 jobs:
   test:
+    # Defines a job named `test` that will run in the workflow
     runs-on: ubuntu-latest
-    # Specifies the latest Ubuntu runner environment for testing
+    # Specifies the environment (runner) for the job. `ubuntu-latest` provides the latest stable Ubuntu image.
 
     steps:
+      # Defines the sequence of steps the job will perform
+
       # 1. Check out the code from the repository
       - name: Check out the code
+        # Step name for identifying this action in logs
         uses: actions/checkout@v2
+        # Uses the `actions/checkout` action (version 2) to clone the repository onto the runner
 
       # 2. Set up the Python environment
       - name: Set up Python
+        # Step name for identifying this action in logs
         uses: actions/setup-python@v2
+        # Uses the `actions/setup-python` action (version 2) to set up a Python environment
         with:
           python-version: '3.8'
-      
+          # Specifies the version of Python to use for the job
+
       # 3. Install dependencies
       - name: Install dependencies
+        # Step name for identifying this action in logs
         run: |
+          # Executes the following commands in a shell
           python -m pip install --upgrade pip
+          # Upgrades the `pip` package manager to the latest version
           pip install -r requirements.txt
-      
+          # Installs the Python dependencies listed in the `requirements.txt` file
+
       # 4. Run tests
       - name: Run tests
+        # Step name for identifying this action in logs
         run: pytest
+        # Runs the `pytest` command to execute unit tests in the repository
